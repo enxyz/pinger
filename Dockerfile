@@ -14,4 +14,4 @@ COPY . .
 
 USER root
 EXPOSE 8080
-CMD ["/bin/bash", "-c", "python3 main.py"]
+CMD ["/bin/bash", "-c", "export PORT=${PORT} && python3 main.py"]

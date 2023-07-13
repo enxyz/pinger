@@ -6,6 +6,8 @@ import os
 from ping3 import ping, verbose_ping
 
 
+
+
 if 'PINGER_IPS' not in os.environ:
   print('define PINGER_IPS > 1.1.1.1,8.8.8.8')
   quit()
@@ -21,7 +23,7 @@ pingTimer = []
 pingIntervalS = 1
 
 for ip in ips:
-  chart.append(ui.chart({'title': { 'text': ip},
+  chart.append(ui.chart({'title': { 'text': ip+"_hi"},
                   'chart': { 'type': 'area', 'zoomType': 'x' },
                   'xAxis': { 'type': 'datetime' },
                   'yAxis': { 'title': {'text':'ms'}},
@@ -41,7 +43,7 @@ def clear():
       chart[i].options['series'][0]['data'].clear()
 
     log.clear()
-    log.push("Auto refresh time: " + str(chartRefreshS) + "sec")
+    log.push("Auto refresh timer: " + str(chartRefreshS) + "sec")
 
 ui.button('Clear all', on_click=clear)
 
@@ -85,4 +87,6 @@ for ip in ips:
 chartTimer = ui.timer(chartRefreshS, lambda: updateCharts())
 
 log.push("Auto refresh time: " + str(chartRefreshS) + "sec")
-ui.run(title="pinger", show="False", favicon="📶")
+
+port = int(os.getenv('PORT', "8080"))
+ui.run(title="pinger", show="False", favicon="📶", host='0.0.0.0', port=port)
